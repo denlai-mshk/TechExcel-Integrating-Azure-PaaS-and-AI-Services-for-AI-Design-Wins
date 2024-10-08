@@ -7,6 +7,10 @@ def create_chat_completion(messages):
     """Create and return a new chat completion request. Key assumptions:
     - The Azure OpenAI endpoint, key, and deployment name are stored in Streamlit secrets."""
 
+    aoai_endpoint = st.secrets["aoai"]["endpoint"]
+    aoai_key = st.secrets["aoai"]["key"]
+    aoai_deployment_name = st.secrets["aoai"]["deployment_name"]
+
     search_endpoint = st.secrets["search"]["endpoint"]
     search_key = st.secrets["search"]["key"]
     search_index_name = st.secrets["search"]["index_name"]
