@@ -15,9 +15,9 @@ on:
     paths: src/ContosoSuitesWebAPI/**
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -27,6 +27,12 @@ jobs:
       with:
         dotnet-version: 8.0
     
+    - name: Clear cache
+      run: |
+        rm -rf ~/.nuget/packages
+        rm -rf ./src/ContosoSuitesWebAPI/bin
+        rm -rf ./src/ContosoSuitesWebAPI/obj
+
     - name: Restore dependencies
       run: dotnet restore ./src/ContosoSuitesWebAPI/ContosoSuitesWebAPI.csproj
     - name: Build
@@ -60,12 +66,11 @@ jobs:
       run: docker push $registryName/$repositoryName:$tag
 
   deploy-to-prod:
-  
     runs-on: ubuntu-latest
     needs: dockerBuildPush
     environment:
       name: prod
-      url: https://{your_prefix}-api.azurewebsites.net/
+      url: https://ndt2v22zi2x2a-api.azurewebsites.net/
     
     steps:
     - uses: actions/checkout@v4
@@ -77,5 +82,5 @@ jobs:
 
     - uses: azure/webapps-deploy@v2
       with:
-        app-name: '{your_prefix}-api'
+        app-name: 'ndt2v22zi2x2a-api'
         images: ndt2v22zi2x2acosureg.azurecr.io/techexcel/csapi:${{github.run_number}}

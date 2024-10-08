@@ -15,6 +15,7 @@ on:
     paths: src/ContosoSuitesDashboard/**
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
 jobs:
   dockerBuildPush:
     runs-on: ubuntu-latest
@@ -22,6 +23,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
+    - name: Clear cache
+      run: |
+        rm -rf ~/.cache/pip
+        rm -rf ./src/ContosoSuitesDashboard/__pycache__
+        rm -rf ./src/ContosoSuitesDashboard/.pytest_cache
+
     - name: Docker Login
       # You may pin to the exact commit or the version.
       # uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
@@ -49,7 +56,6 @@ jobs:
       run: docker push $registryName/$repositoryName:$tag
 
   deploy-to-prod:
-  
     runs-on: ubuntu-latest
     needs: dockerBuildPush
     environment:
