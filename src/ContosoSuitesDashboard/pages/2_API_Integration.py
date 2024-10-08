@@ -40,7 +40,11 @@ def main():
     )
 
     # Display the list of hotels as a drop-down list
-    hotels_json = get_hotels().json()
+    # hotels_json = get_hotels().json()
+    response = get_hotels()
+    st.write(response.text)  # This will show the raw response
+    hotels_json = response.json()
+
     # Reshape hotels to an object with hotelID and hotelName
     hotels = [{"id": hotel["hotelID"], "name": hotel["hotelName"]} for hotel in hotels_json]
     
