@@ -9,6 +9,7 @@ aiwins/
 .venv/
 .env/
 
+credential.json
 secrets.toml
 1_Chat_with_Data_solution.py
 2_Api_Integration_solution.py
